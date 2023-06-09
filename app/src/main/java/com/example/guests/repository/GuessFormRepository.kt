@@ -104,6 +104,65 @@ class GuessFormRepository private constructor(context: Context) {
         }
 
         return list
+    }
 
+    fun getPresent(): List<GuestModel> {
+        val list = mutableListOf<GuestModel>()
+        val columId = DataBaseConstants.GUEST.COLUMNS.ID
+        val columName = DataBaseConstants.GUEST.COLUMNS.NAME
+        val columPresence = DataBaseConstants.GUEST.COLUMNS.PRESENCE
+
+        try {
+            val db = guessDataBase.readableDatabase
+
+            val cursor = db.rawQuery("SELECT * FROM guest WHERE presence = 1", null)
+
+            if(cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val id = cursor.getInt(cursor.getColumnIndexOrThrow(columId))
+                    val name = cursor.getString(cursor.getColumnIndexOrThrow(columName))
+                    val presence = cursor.getInt(cursor.getColumnIndexOrThrow(columPresence))
+
+                    val guest = GuestModel(id, name, presence == 1)
+                    list.add(guest)
+                }
+            }
+
+            cursor.close()
+        } catch (e: Exception) {
+            return list
+        }
+
+        return list
+    }
+
+    fun getAbsent(): List<GuestModel> {
+        val list = mutableListOf<GuestModel>()
+        val columId = DataBaseConstants.GUEST.COLUMNS.ID
+        val columName = DataBaseConstants.GUEST.COLUMNS.NAME
+        val columPresence = DataBaseConstants.GUEST.COLUMNS.PRESENCE
+
+        try {
+            val db = guessDataBase.readableDatabase
+
+            val cursor = db.rawQuery("SELECT * FROM guest WHERE presence = 0", null)
+
+            if(cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val id = cursor.getInt(cursor.getColumnIndexOrThrow(columId))
+                    val name = cursor.getString(cursor.getColumnIndexOrThrow(columName))
+                    val presence = cursor.getInt(cursor.getColumnIndexOrThrow(columPresence))
+
+                    val guest = GuestModel(id, name, presence == 1)
+                    list.add(guest)
+                }
+            }
+
+            cursor.close()
+        } catch (e: Exception) {
+            return list
+        }
+
+        return list
     }
 }
