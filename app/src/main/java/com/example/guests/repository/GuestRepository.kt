@@ -1,21 +1,20 @@
 package com.example.guests.repository
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import com.example.guests.constants.DataBaseConstants
 import com.example.guests.model.GuestModel
 
-class GuessFormRepository private constructor(context: Context) {
+class GuestRepository private constructor(context: Context) {
 
     private val guessDataBase = GuestDataBase(context)
 
     companion object {
-        private lateinit var repository: GuessFormRepository
+        private lateinit var repository: GuestRepository
 
-        fun getInstance(context: Context): GuessFormRepository {
+        fun getInstance(context: Context): GuestRepository {
             if (!Companion::repository.isInitialized) {
-                repository = GuessFormRepository(context)
+                repository = GuestRepository(context)
             }
 
             return repository

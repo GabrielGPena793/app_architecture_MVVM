@@ -3,11 +3,11 @@ package com.example.guests.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.guests.model.GuestModel
-import com.example.guests.repository.GuessFormRepository
+import com.example.guests.repository.GuestRepository
 
 class GuessFormViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = GuessFormRepository.getInstance(application)
+    private val repository = GuestRepository.getInstance(application)
 
     fun insert(guest: GuestModel) {
         repository.insert(guest)
