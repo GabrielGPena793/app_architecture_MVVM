@@ -57,4 +57,18 @@ class GuessFormRepository private constructor(context: Context) {
            false
        }
     }
+
+    fun delete(id: Int) : Boolean {
+        return try {
+            val db = guessDataBase.writableDatabase
+
+            val where = "${DataBaseConstants.GUEST.COLUMNS.ID} = ?"
+            val args = arrayOf(id.toString())
+
+            db.delete(DataBaseConstants.GUEST.TABLE_NAME, where, args)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
