@@ -17,6 +17,7 @@ class AllGuestsFragment : Fragment() {
     private var _binding: FragmentAllGuestsBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: AllGuestsViewModel
+    private val adapter = GuestAdapter()
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?, b: Bundle?): View {
         viewModel = ViewModelProvider(this)[AllGuestsViewModel::class.java]
@@ -26,7 +27,7 @@ class AllGuestsFragment : Fragment() {
         binding.recyclerGuestsList.layoutManager = LinearLayoutManager(context)
 
         // adapter
-        binding.recyclerGuestsList.adapter = GuestAdapter()
+        binding.recyclerGuestsList.adapter = adapter
 
         viewModel.getAll()
 
@@ -41,6 +42,7 @@ class AllGuestsFragment : Fragment() {
     }
     fun observe() {
         viewModel.guests.observe(viewLifecycleOwner) {
+            adapter.updateGuests(it)
         }
     }
 }
