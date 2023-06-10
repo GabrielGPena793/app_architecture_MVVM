@@ -5,15 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.guests.databinding.RowGuestBinding
 import com.example.guests.model.GuestModel
+import com.example.guests.view.listener.OnGuestListener
 import com.example.guests.view.viewHolder.GuessViewHolder
 
 class GuestAdapter : RecyclerView.Adapter<GuessViewHolder>(){
 
     private var questList = listOf<GuestModel>()
+    private lateinit var listener : OnGuestListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuessViewHolder {
         val item = RowGuestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return GuessViewHolder(item)
+        return GuessViewHolder(item, listener)
     }
 
     override fun getItemCount(): Int {
@@ -27,5 +29,9 @@ class GuestAdapter : RecyclerView.Adapter<GuessViewHolder>(){
     fun updateGuests(list: List<GuestModel>) {
         questList = list
         notifyDataSetChanged() // notifica que houve alterações
+    }
+
+    fun attachGuestListener (guestListener: OnGuestListener) {
+        listener = guestListener
     }
 }
