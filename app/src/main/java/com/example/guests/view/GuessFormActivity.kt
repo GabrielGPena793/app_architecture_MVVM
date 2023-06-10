@@ -34,6 +34,8 @@ class GuessFormActivity : AppCompatActivity(), View.OnClickListener {
 
            viewModel.insert(guest)
 
+           binding.editName.setText("")
+           binding.radioPresent.isChecked = true
        }
     }
 }

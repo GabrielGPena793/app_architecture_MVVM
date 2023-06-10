@@ -55,6 +55,11 @@ class AllGuestsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onResume() {
+        viewModel.getAll()
+        super.onResume()
+    }
     fun observe() {
         viewModel.guests.observe(viewLifecycleOwner) {
             adapter.updateGuests(it)
