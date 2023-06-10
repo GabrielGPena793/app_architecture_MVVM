@@ -1,5 +1,6 @@
 package com.example.guests.view.viewHolder
 
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.guests.databinding.RowGuestBinding
 import com.example.guests.model.GuestModel
@@ -16,7 +17,16 @@ class GuessViewHolder(private val bind: RowGuestBinding, private val listener: O
         }
 
         bind.textName.setOnLongClickListener {
-            listener.onDelete(guest.id)
+
+            AlertDialog.Builder(itemView.context)
+                .setTitle("Remoção")
+                .setMessage("Deseje remover o item ${guest.name}")
+                .setPositiveButton("Sim") { dialog, which ->
+                    listener.onDelete(guest.id)
+                }
+                .setNegativeButton("Não", null)
+                .create()
+                .show()
             true
         }
     }
