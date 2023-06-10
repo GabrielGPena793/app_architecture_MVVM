@@ -20,7 +20,7 @@ class GuessViewHolder(private val bind: RowGuestBinding, private val listener: O
 
             AlertDialog.Builder(itemView.context)
                 .setTitle("Remoção")
-                .setMessage("Deseje remover o item ${guest.name}")
+                .setMessage("Deseja remover o item ${guest.name}")
                 .setPositiveButton("Sim") { dialog, which ->
                     listener.onDelete(guest.id)
                 }
