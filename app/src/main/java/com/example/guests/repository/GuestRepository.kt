@@ -58,6 +58,39 @@ class GuestRepository private constructor(context: Context) {
         }
     }
 
+    fun getById(id: Int): GuestModel? {
+        var guest: GuestModel? = null
+        val columName = DataBaseConstants.GUEST.COLUMNS.NAME
+        val columPresence = DataBaseConstants.GUEST.COLUMNS.PRESENCE
+
+        try {
+            val db = guessDataBase.readableDatabase
+
+            val where = "${DataBaseConstants.GUEST.COLUMNS.ID} = ?"
+            val args = arrayOf(id.toString())
+
+            val cursor =
+                db.query(
+                    DataBaseConstants.GUEST.TABLE_NAME, null,
+                    where, args, null, null, null
+                )
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val name = cursor.getString(cursor.getColumnIndexOrThrow(columName))
+                    val presence = cursor.getInt(cursor.getColumnIndexOrThrow(columPresence))
+
+                    guest = GuestModel(id, name, presence == 1)
+                }
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            return guest
+        }
+
+        return guest
+    }
+
     fun delete(id: Int): Boolean {
         return try {
             val db = guessDataBase.writableDatabase
@@ -83,10 +116,12 @@ class GuestRepository private constructor(context: Context) {
 
             val select = arrayOf(columId, columName, columPresence)
 
-            val cursor = db.query(DataBaseConstants.GUEST.TABLE_NAME, select,
-                null, null, null, null, null)
+            val cursor = db.query(
+                DataBaseConstants.GUEST.TABLE_NAME, select,
+                null, null, null, null, null
+            )
 
-            if(cursor != null && cursor.count > 0) {
+            if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()) {
                     val id = cursor.getInt(cursor.getColumnIndexOrThrow(columId))
                     val name = cursor.getString(cursor.getColumnIndexOrThrow(columName))
@@ -116,7 +151,7 @@ class GuestRepository private constructor(context: Context) {
 
             val cursor = db.rawQuery("SELECT * FROM guest WHERE presence = 1", null)
 
-            if(cursor != null && cursor.count > 0) {
+            if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()) {
                     val id = cursor.getInt(cursor.getColumnIndexOrThrow(columId))
                     val name = cursor.getString(cursor.getColumnIndexOrThrow(columName))
@@ -146,7 +181,7 @@ class GuestRepository private constructor(context: Context) {
 
             val cursor = db.rawQuery("SELECT * FROM guest WHERE presence = 0", null)
 
-            if(cursor != null && cursor.count > 0) {
+            if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()) {
                     val id = cursor.getInt(cursor.getColumnIndexOrThrow(columId))
                     val name = cursor.getString(cursor.getColumnIndexOrThrow(columName))

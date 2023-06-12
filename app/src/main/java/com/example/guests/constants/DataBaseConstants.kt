@@ -3,6 +3,7 @@ package com.example.guests.constants
 class DataBaseConstants private constructor() {
 
     object GUEST {
+        const val ID = "guestId"
         const val TABLE_NAME = "guest"
 
         object COLUMNS {
