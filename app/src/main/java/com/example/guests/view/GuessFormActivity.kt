@@ -3,6 +3,7 @@ package com.example.guests.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.guests.model.GuestModel
 import com.example.guests.R
@@ -38,7 +39,13 @@ class GuessFormActivity : AppCompatActivity(), View.OnClickListener {
            val presence = binding.radioPresent.isChecked
            val guest = GuestModel(guestId, name, presence)
 
-           viewModel.save(guest)
+           val alertResponse = viewModel.save(guest)
+
+           Toast.makeText(this, alertResponse.message, Toast.LENGTH_LONG).show()
+
+           if (alertResponse.success) {
+               finish()
+           }
 
            binding.editName.setText("")
            binding.radioPresent.isChecked = true
