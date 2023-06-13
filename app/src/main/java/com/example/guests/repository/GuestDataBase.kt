@@ -11,6 +11,8 @@ import com.example.guests.model.GuestModel
 @Database(entities = [GuestModel::class], version = 1)
 abstract class GuestDataBase : RoomDatabase() {
 
+    abstract fun guestDAO(): GuestDAO
+
     companion object {
         private lateinit var INSTANCE : GuestDataBase
 
@@ -22,9 +24,7 @@ abstract class GuestDataBase : RoomDatabase() {
                         .allowMainThreadQueries()
                         .build()
                 }
-
             }
-
             return  INSTANCE
         }
 
@@ -32,7 +32,6 @@ abstract class GuestDataBase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DELETE FROM guest")
             }
-
         }
     }
 
